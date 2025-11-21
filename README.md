@@ -1,5 +1,4 @@
 Power BI Build Package
-Generated: 2025-11-21T13:52:04.021367 UTC
 
 Contents:
 - sales.csv (sample sales transactions, ~200k rows)
@@ -35,7 +34,6 @@ Teaching relationships (short):
 - Use relationships rather than merging tables when you want to keep grain of data and avoid duplication.
 
 Limitations:
-- This package includes sample data and M/DAX snippets. It does NOT include a .pbix file because creating an actual .pbix programmatically is outside this environment. Use these assets to assemble the Power BI report locally.
+- This package includes sample data and M/DAX snippets.
 - The sales.csv is intentionally 'large' (~200k rows) to simulate performance considerations; in real world you may use DirectQuery or Aggregations for millions of rows.
 
-Files included in the zip are in the 'powerbi_package' folder.
