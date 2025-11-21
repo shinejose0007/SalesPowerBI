@@ -1,0 +1,17 @@
+{
+  "name": "Custom Corporate Theme",
+  "dataColors": [
+    "#0B5FFF",
+    "#00B37E",
+    "#FF7A00",
+    "#FF2D55",
+    "#8E54FF",
+    "#00A1FF",
+    "#FFC700",
+    "#3DDC84"
+  ],
+  "background": "#ffffff",
+  "foreground": "#222222",
+  "tableAccent": "#0B5FFF",
+  "visualStyles": {}
+}

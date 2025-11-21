@@ -1,0 +1,56 @@
+-- Measures (copy into Power BI's Measure table or each table as appropriate)
+
+-- Basic measures
+Total Sales = SUM('sales'[SalesAmount])
+Total Units = SUM('sales'[Quantity])
+Distinct Customers = DISTINCTCOUNT('customers'[CustomerID])
+Average Order Value = DIVIDE([Total Sales], DISTINCTCOUNT('sales'[SaleID]))
+
+-- Time intelligence (requires a proper Date table named 'DateTable' with continuous dates)
+Sales YTD = 
+CALCULATE(
+    [Total Sales],
+    DATESYTD('DateTable'[Date])
+)
+
+Sales LY = 
+CALCULATE(
+    [Total Sales],
+    SAMEPERIODLASTYEAR('DateTable'[Date])
+)
+
+YoY Sales % = 
+DIVIDE([Total Sales] - [Sales LY], [Sales LY], 0)
+
+-- Running total by date
+Running Total Sales = 
+CALCULATE(
+    [Total Sales],
+    FILTER(ALLSELECTED('DateTable'), 'DateTable'[Date] <= MAX('DateTable'[Date]))
+)
+
+-- % of Total (by product, category, region)
+Sales % of Total = 
+DIVIDE([Total Sales], CALCULATE([Total Sales], ALL('products')), 0)
+
+-- Average Price per Unit (ignores negative returns appropriately)
+Average Price per Unit = 
+DIVIDE(
+    SUMX('sales', 'sales'[UnitPrice] * ABS('sales'[Quantity])),
+    SUMX('sales', ABS('sales'[Quantity]))
+)
+
+-- Customer Lifetime Value (simple approximation)
+Customer LTV = 
+CALCULATE(
+    DIVIDE([Total Sales], DISTINCTCOUNT('sales'[CustomerID])),
+    ALL('customers')
+)
+
+-- New vs Returning Customers (requires flags in data or lookups)
+-- Example of customers with first purchase in selected period
+First Purchase Date = 
+CALCULATE(MIN('sales'[OrderDate]), ALLEXCEPT('customers','customers'[CustomerID]))
+
+Is New Customer = 
+IF([First Purchase Date] >= MIN('DateTable'[Date]) && [First Purchase Date] <= MAX('DateTable'[Date]), 1, 0)
